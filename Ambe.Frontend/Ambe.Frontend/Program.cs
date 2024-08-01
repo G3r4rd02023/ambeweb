@@ -1,3 +1,4 @@
+using Ambe.Frontend.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Ambe.Frontend
@@ -11,6 +12,7 @@ namespace Ambe.Frontend
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddHttpClient();
+            builder.Services.AddScoped<IBitacoraService, BitacoraService>();
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
            .AddCookie(options =>
            {

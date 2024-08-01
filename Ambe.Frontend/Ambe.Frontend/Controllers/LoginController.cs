@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text;
 using Newtonsoft.Json;
+using Ambe.Frontend.Services;
 
 namespace Ambe.Frontend.Controllers
 {
@@ -13,11 +14,13 @@ namespace Ambe.Frontend.Controllers
     {
 
         private readonly HttpClient _httpClient;
+        private readonly IBitacoraService _bitacora;
 
-        public LoginController(IHttpClientFactory httpClientFactory)
+        public LoginController(IHttpClientFactory httpClientFactory, IBitacoraService bitacora)
         {
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri("https://ambetest.somee.com");
+            _bitacora = bitacora;
         }
         public IActionResult IniciarSesion()
         {
@@ -73,5 +76,52 @@ namespace Ambe.Frontend.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("IniciarSesion", "Login");
         }
+
+        public async Task<IActionResult> VerBitacora()
+        {
+            var response = await _httpClient.GetAsync("/api/Bitacora");
+            if (!response.IsSuccessStatusCode)
+            {
+                return View(new List<BitacoraViewModel>());
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            var bitacora = JsonConvert.DeserializeObject<IEnumerable<BitacoraViewModel>>(content);
+
+            foreach (var entry in bitacora!)
+            {
+                var userResponse = await _httpClient.GetAsync($"/api/Usuarios/{entry.IdUsuario}");
+                if (userResponse.IsSuccessStatusCode)
+                {
+                    var usuarioJson = await userResponse.Content.ReadAsStringAsync();
+                    var usuario = JsonConvert.DeserializeObject<Usuarios>(usuarioJson);
+                    entry.Usuario = usuario?.NombreUsuario!;
+                }
+            }
+
+            var email = Uri.EscapeDataString(User.Identity!.Name!);
+            var currentUserResponse = await _httpClient.GetAsync($"/api/Usuarios/email/{email}");
+            if (!currentUserResponse.IsSuccessStatusCode)
+            {
+                return View("Error"); 
+            }
+
+            var currentUserJson = await currentUserResponse.Content.ReadAsStringAsync();
+            var currentUser = JsonConvert.DeserializeObject<Usuarios>(currentUserJson);
+
+            var newEntry = new BitacoraViewModel()
+            {
+                IdUsuario = currentUser!.IdUsuario,
+                Usuario = currentUser!.NombreUsuario,
+                IdInstituto = 1,
+                TipoAccion = "Consultó",
+                Tabla = "Bitacora",
+                Fecha = DateTime.Now
+            };
+            await _bitacora.AgregarRegistro(newEntry);
+
+            return View("VerBitacora", bitacora);
+        }
+
     }
 }
