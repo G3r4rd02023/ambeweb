@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace Ambe.Frontend
 {
     public class Program
@@ -8,7 +10,13 @@ namespace Ambe.Frontend
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddHttpClient();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+           .AddCookie(options =>
+           {
+              options.LoginPath = "/Login/IniciarSesion";
+              options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+           });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -25,10 +33,10 @@ namespace Ambe.Frontend
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseAuthentication();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Login}/{action=IniciarSesion}/{id?}");
 
             app.Run();
         }
