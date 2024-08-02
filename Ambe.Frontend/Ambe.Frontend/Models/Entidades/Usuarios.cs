@@ -1,4 +1,7 @@
-﻿namespace Ambe.Frontend.Models.Entidades
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Ambe.Frontend.Models.Entidades
 {
     public class Usuarios
     {
@@ -29,5 +32,11 @@
         public string ModificadoPor { get; set; } = null!;
 
         public DateTime FechaModificacion { get; set; }
+
+        [NotMapped]
+        public IEnumerable<SelectListItem>? Roles { get; set; }
+
+        [NotMapped]
+        public IEnumerable<SelectListItem>? Estados { get; set; }
     }
 }
