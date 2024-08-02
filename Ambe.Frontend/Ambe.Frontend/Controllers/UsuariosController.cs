@@ -106,8 +106,7 @@ namespace Ambe.Frontend.Controllers
                 return NotFound();
             }
 
-            user.Roles = await _lista.GetListaRoles();
-            Debug.WriteLine($"Roles: {string.Join(", ", user.Roles)}");
+            user.Roles = await _lista.GetListaRoles();            
             user.Estados = _lista.GetListaEstados();
             return View(user);
         }
@@ -138,5 +137,22 @@ namespace Ambe.Frontend.Controllers
             }
             return View(user);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/Usuarios/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["AlertMessage"] = "Usuario eliminado exitosamente!!!";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Error"] = "Error al eliminar el usuario.";
+                return RedirectToAction("Index");
+            }
+        }
+
     }
 }

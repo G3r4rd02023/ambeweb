@@ -75,7 +75,7 @@
                             <td>
                                 <a onclick="showInPopup('@Url.Action("AprobarUsuario", "Usuarios", new { id = item.IdUsuario }, Context.Request.Scheme)' ,
                     '')" class="btn btn-outline-success btn-sm"><i class="oi oi-circle-check"></i> </a>
-                                <button data-id="@item.IdUsuario" class="btn btn-outline-danger btn-sm deleteItem" data-bs-toggle="modal" data-bs-target="#deleteDialog">
+                                <button data-id="@item.IdUsuario" class="btn btn-outline-danger btn-sm deleteItem">
                                     <i class="oi oi-circle-x"></i>
                                 </button>
                             </td>
@@ -108,7 +108,35 @@
     </script>
 
     <script>
-        sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Usuarios/Delete/', false);
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.deleteItem');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    const patientId = this.getAttribute('data-id');
+
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, eliminarlo',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            window.location.href = '/Usuarios/Delete/' + patientId;
+                        }
+                    });
+                });
+            });
+        });
     </script>
+
 }
 
