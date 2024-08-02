@@ -2,7 +2,6 @@
 using Ambe.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Reflection.Metadata;
 using System.Text;
 
 namespace Ambe.Frontend.Controllers
@@ -50,7 +49,7 @@ namespace Ambe.Frontend.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 var json = JsonConvert.SerializeObject(institutos);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -91,7 +90,7 @@ namespace Ambe.Frontend.Controllers
         {
             var response = await _httpClient.GetAsync($"/api/Institutos/{id}");
             if (!response.IsSuccessStatusCode)
-            {                
+            {
                 TempData["ErrorMessage"] = "Error al obtener instituto.";
                 return RedirectToAction("Index");
             }

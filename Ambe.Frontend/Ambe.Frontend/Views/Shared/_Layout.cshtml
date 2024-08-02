@@ -49,15 +49,19 @@
                                     </ul>
                                 </li>
                             }
-                            @if (User.Identity.IsAuthenticated && User.IsInRole("Usuario"))
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("ADMINISTRADOR INSTITUCIONAL"))
                             {
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle text-white-50" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <span class="oi oi-list"></span>  Menu
                                     </a>
-                                    <ul class="dropdown-menu bg-success" aria-labelledby="offcanvasNavbarDropdown">
-                                        <li><a class="dropdown-item text-white-50" asp-controller="Solicitudes" asp-action="Index"><span class="oi oi-clipboard"></span>  Solicitudes</a></li>
-                                        <li><a class="dropdown-item text-white-50" asp-controller="Denuncias" asp-action="Index"><span class="oi oi-book"></span>  Denuncias</a></li>
+                                    <ul class="dropdown-menu bg-custom" aria-labelledby="offcanvasNavbarDropdown">
+                                        <li><a class="dropdown-item text-white-50" asp-controller="Viajes" asp-action="Index"><span class="oi oi-globe"></span>  Viajes</a></li>
+                                        <li><a class="dropdown-item text-white-50" asp-controller="Rutas" asp-action="Index"><span class="oi oi-location"></span>  Rutas</a></li>
+                                        <li><a class="dropdown-item text-white-50" asp-controller="Login" asp-action="VerBitacora"><span class="oi oi-pencil"></span>  Bitacora</a></li>
+                                        <li><a class="dropdown-item text-white-50" asp-controller="Usuarios" asp-action="Index"><span class="oi oi-people"></span>  Usuarios</a></li>
+                                        <li><a class="dropdown-item text-white-50" asp-controller="Parametros" asp-action="Index"><span class="oi oi-cog"></span>  Configuracion</a></li>
+                                        <li><a class="dropdown-item text-white-50" asp-controller="Roles" asp-action="Index"><span class="oi oi-key"></span>  Roles</a></li>
                                     </ul>
                                 </li>
                             }
@@ -67,7 +71,7 @@
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-white-50" asp-area="" asp-controller="Usuarios"
-                                       asp-action="Edit"><span class="oi oi-person"></span><strong>  Hola! @User.Identity.Name</strong></a>
+                                       asp-action="CambiarPassword"><span class="oi oi-person"></span><strong>  Hola! @User.Identity.Name</strong></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-white-50" asp-area="" asp-controller="Login" asp-action="CerrarSesion">
