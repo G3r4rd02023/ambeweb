@@ -1,7 +1,5 @@
 ﻿using Ambe.Frontend.Models.Entidades;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json;
-using System.Net.Http;
 using System.Text;
 
 namespace Ambe.Frontend.Services
@@ -18,7 +16,7 @@ namespace Ambe.Frontend.Services
         {
             Bitacora bitacora = new()
             {
-                TipoAccion = model.TipoAccion,               
+                TipoAccion = model.TipoAccion,
                 IdUsuario = model.IdUsuario,
                 Fecha = DateTime.Now,
                 IdInstituto = model.IdInstituto,
@@ -35,6 +33,13 @@ namespace Ambe.Frontend.Services
             return bitacora;
         }
 
-       
+        public async Task<Usuarios> ObtenerUsuario(string email)
+        {
+            var userResponse = await _httpClient.GetAsync($"/api/Usuarios/email/{email}");
+            var usuarioJson = await userResponse.Content.ReadAsStringAsync();
+            var user = JsonConvert.DeserializeObject<Usuarios>(usuarioJson);
+            return user!;
+        }
+
     }
 }

@@ -1,0 +1,68 @@
+﻿@model Ambe.Frontend.Models.Entidades.Institutos
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header text-center">
+            <img src="/images/ramgarlogo.jpg" style="width: 100px; height: auto;" />
+        </div>
+        <div class="card-body">
+            <h5>Crear Instituto </h5>
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="CreadoPor" />
+                <input type="hidden" asp-for="ModificadoPor" />
+                <input type="hidden" asp-for="FechaCreacion" />
+                <input type="hidden" asp-for="FechaModificacion" />
+                <div class="form-group">
+                    <input asp-for="NombreInstituto" class="form-control" placeholder="Nombre" />
+                    <span asp-validation-for="NombreInstituto" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Rtn" class="form-control" placeholder="RTN" />
+                    <span asp-validation-for="Rtn" class="text-danger"></span>
+                </div>
+
+                 <div class="form-group">
+                    <input asp-for="Telefono" class="form-control" placeholder="Telefono" />
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Direccion" class="form-control" placeholder="Direccion" />
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Email" class="form-control" placeholder="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Descripcion" class="form-control" placeholder="Descripcion" />
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
+
+                <div class="card-footer text-center">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-success">
+                            <i class="oi oi-check"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">
+                            <i class="oi oi-arrow-thick-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

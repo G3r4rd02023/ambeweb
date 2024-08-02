@@ -72,9 +72,9 @@ namespace Ambe.Frontend.Controllers
                 {
                     TempData["AlertMessage"] = "Usuario creado exitosamente!!!";
                     var email = Uri.EscapeDataString(User!.Identity!.Name!);
-                    var userResponse = await _httpClient.GetAsync($"/api/Usuarios/email/{email}");
-                    var usuarioJson = await userResponse.Content.ReadAsStringAsync();
-                    var user = JsonConvert.DeserializeObject<Usuarios>(usuarioJson);
+
+                    var user = await _bitacora.ObtenerUsuario(email);
+
                     var bitacora = new BitacoraViewModel()
                     {
                         IdUsuario = user!.IdUsuario,

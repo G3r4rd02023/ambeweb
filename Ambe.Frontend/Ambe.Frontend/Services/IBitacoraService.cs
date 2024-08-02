@@ -6,7 +6,7 @@ namespace Ambe.Frontend.Services
     {
         Task<Bitacora> AgregarRegistro(BitacoraViewModel model);
 
-        
+        Task<Usuarios> ObtenerUsuario(string email);
 
     }
 }
