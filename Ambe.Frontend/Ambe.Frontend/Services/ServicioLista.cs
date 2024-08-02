@@ -32,19 +32,19 @@ namespace Ambe.Frontend.Services
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var estados = JsonConvert.DeserializeObject<IEnumerable<Roles>>(content);
-                var listaEstados = estados!.Select(c => new SelectListItem
+                var roles = JsonConvert.DeserializeObject<IEnumerable<Roles>>(content);
+                var listaRoles = roles!.Select(c => new SelectListItem
                 {
                     Value = c.IdRol.ToString(),
                     Text = c.Descripcion
                 }).ToList();
 
-                listaEstados.Insert(0, new SelectListItem
+                listaRoles.Insert(0, new SelectListItem
                 {
                     Value = "",
                     Text = "Seleccione un Rol"
                 });
-                return listaEstados;
+                return listaRoles;
             }
 
             return [];

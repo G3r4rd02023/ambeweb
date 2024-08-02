@@ -3,6 +3,7 @@ using Ambe.Frontend.Models.Entidades;
 using Ambe.Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 
@@ -106,6 +107,7 @@ namespace Ambe.Frontend.Controllers
             }
 
             user.Roles = await _lista.GetListaRoles();
+            Debug.WriteLine($"Roles: {string.Join(", ", user.Roles)}");
             user.Estados = _lista.GetListaEstados();
             return View(user);
         }
