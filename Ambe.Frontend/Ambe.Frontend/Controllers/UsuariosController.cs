@@ -72,9 +72,9 @@ namespace Ambe.Frontend.Controllers
                 {
                     TempData["AlertMessage"] = "Usuario creado exitosamente!!!";
                     var email = Uri.EscapeDataString(User!.Identity!.Name!);
-                    var userResponse = await _httpClient.GetAsync($"/api/Usuarios/email/{email}");
-                    var usuarioJson = await userResponse.Content.ReadAsStringAsync();
-                    var user = JsonConvert.DeserializeObject<Usuarios>(usuarioJson);
+
+                    var user = await _bitacora.ObtenerUsuario(email);
+
                     var bitacora = new BitacoraViewModel()
                     {
                         IdUsuario = user!.IdUsuario,
@@ -154,5 +154,83 @@ namespace Ambe.Frontend.Controllers
             }
         }
 
+        public async Task<IActionResult> CambiarPassword()
+        {
+            var email = Uri.EscapeDataString(User.Identity!.Name!);
+
+            var user = await _bitacora.ObtenerUsuario(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            PasswordViewModel model = new()
+            {
+                UserId = user.IdUsuario,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CambiarPassword(PasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var email = Uri.EscapeDataString(User.Identity!.Name!);
+                var userResponse = await _httpClient.GetAsync($"/api/Usuarios/email/{email}");
+
+                if (userResponse.IsSuccessStatusCode)
+                {
+                    var usuarioJson = await userResponse.Content.ReadAsStringAsync();
+                    var user = JsonConvert.DeserializeObject<Usuarios>(usuarioJson);
+
+                    if (user != null)
+                    {
+                        var changePasswordModel = new
+                        {
+                            UserId = model.UserId,
+                            OldPassword = model.OldPassword,
+                            NewPassword = model.NewPassword,
+                            Confirmation = model.Confirmation
+                        };
+
+                        var content = new StringContent(JsonConvert.SerializeObject(changePasswordModel), Encoding.UTF8, "application/json");
+                        var resultResponse = await _httpClient.PutAsync($"/api/Usuarios/CambiarPassword/{model.UserId}", content);
+
+                        if (resultResponse.IsSuccessStatusCode)
+                        {
+                            var bitacora = new BitacoraViewModel()
+                            {
+                                IdUsuario = user!.IdUsuario,
+                                Usuario = user!.NombreUsuario,
+                                IdInstituto = 1,
+                                TipoAccion = "Cambió contraseña",
+                                Tabla = "Usuarios",
+                                Fecha = DateTime.Now
+                            };
+                            await _bitacora.AgregarRegistro(bitacora);
+                            TempData["AlertMessage"] = "La clave se ha modificado exitosamente!";
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            var errorResponse = await resultResponse.Content.ReadAsStringAsync();
+
+                            ModelState.AddModelError(string.Empty, errorResponse);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Usuario no encontrado.");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error al obtener el usuario.");
+                }
+            }
+            return View(model);
+        }
     }
 }
