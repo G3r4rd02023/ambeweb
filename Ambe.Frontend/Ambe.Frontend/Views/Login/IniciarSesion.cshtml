@@ -11,13 +11,26 @@
     <style>
         body {
             background-image: url('/images/background-ambe2.jpg');
-            background-size: cover; 
-            background-repeat: no-repeat; 
+            background-size: cover;
+            background-repeat: no-repeat;
         }
 
         .card {
-            background-color: rgba(255, 255, 255, 0.8); 
-            border: 1px solid #ddd; 
+            background-color: transparent !important;
+            border: none !important; 
+            box-shadow: none !important;  
+            padding: 0 !important;
+        }
+
+        .card-header, .card-body {
+            background-color: transparent !important; 
+            padding: 0 !important;
+        }
+
+        .btn-iniciar-sesion {
+            color: #ffffff;
+            background-color: purple !important;
+           
         }
     </style>
     <meta name="viewport" content="width=device-width" />
@@ -31,30 +44,25 @@
         <div class="row justify-content-center">
             <div class="col-12 col-xl-4 col-md-6">
 
-                <div class="card bg-secondary text-white">
+                <div class="card">
                     <div class="card-header d-flex justify-content-center">
-                        <img src="/images/ramgarlogo.jpg" style="width: 150px; height: auto;" />                       
+                        <img src="/images/ramgar.png" style="width: 150px; height: auto;" />
                     </div>
                     <div class="card-body">
-
                         <form asp-controller="Login" asp-action="IniciarSesion" method="post">
-
                             <input class="form-control mb-3" type="text" placeholder="Usuario" required name="email" />
                             <input class="form-control mb-3" type="password" placeholder="Contraseña" required name="contraseña" />
                             <div class="d-grid gap-2 mb-3">
-                                <button class="btn btn-primary" type="submit">Iniciar Sesion</button>
+                                <button class="btn btn-primary btn-iniciar-sesion" type="submit">Iniciar Sesion</button>
                             </div>
                             @if (ViewData["Mensaje"] != null)
                             {
-
                                 <div class="form-group">
                                     <div class="alert alert-danger" role="alert">
                                         @ViewData["Mensaje"]
                                     </div>
                                 </div>
                             }
-                            @* ¿No tienes una cuenta? <a href="@Url.Action("Registro","Login")" class="text-info"> Registraste!</a> *@
-
                         </form>
 
                     </div>
@@ -98,5 +106,3 @@
         });
     </script>
 }
-
-
