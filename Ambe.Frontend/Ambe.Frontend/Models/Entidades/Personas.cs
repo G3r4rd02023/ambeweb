@@ -29,5 +29,7 @@
         public DateTime FechaModificacion { get; set; }
 
         public string Estado { get; set; } = null!;
+
+        public string NombreCompleto => $"{PrimerNombre} {PrimerApellido}";
     }
 }

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Ambe.Frontend.Models.Entidades.Contactos> 
+
+@{
+    ViewData["Title"] = "Lista de Contactos";
+}
+
+
+
+
+<h2>Contactos de la Persona</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-warning">@ViewBag.Message</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Direccion</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contacto in Model)
+            {
+                <tr>
+                    <td>@contacto.Direccion</td>
+                    <td>@contacto.Email</td>
+                    <td>@contacto.Telefono</td>
+                    <td>@contacto.Latitud</td>
+                    <td>@contacto.Longitud</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<button type="button" class="btn btn-sm btn-primary" onclick="window.history.back();">
+    <i class="oi oi-arrow-thick-left"></i> Regresar
+</button>

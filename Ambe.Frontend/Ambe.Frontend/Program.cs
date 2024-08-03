@@ -14,6 +14,7 @@ namespace Ambe.Frontend
             builder.Services.AddHttpClient();
             builder.Services.AddScoped<IBitacoraService, BitacoraService>();
             builder.Services.AddScoped<IServicioLista, ServicioLista>();
+            builder.Services.AddScoped<IServicioPersonas, ServicioPersonas>();
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
            .AddCookie(options =>
            {
