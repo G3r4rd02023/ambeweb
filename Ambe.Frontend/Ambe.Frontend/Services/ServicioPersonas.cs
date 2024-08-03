@@ -61,5 +61,38 @@ namespace Ambe.Frontend.Services
             return Enumerable.Empty<Contactos>();
         }
 
+        public async Task<IEnumerable<Modelos>> GetModelosAsync(int idMarca)
+        {
+            var response = await _httpClient.GetAsync("api/Modelos");
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Intentar deserializar como array primero
+                try
+                {
+                    var modelosArray = JsonConvert.DeserializeObject<IEnumerable<Modelos>>(responseString);
+                    if (modelosArray != null)
+                    {
+                        var modelos = modelosArray.Where(m => m.IdMarca == idMarca);
+                        return modelos;
+                    }
+                }
+                catch (JsonSerializationException) { }
+
+                // Si falla, intentar deserializar como objeto único
+                try
+                {
+                    var modelosObjeto = JsonConvert.DeserializeObject<Modelos>(responseString);
+                    if (modelosObjeto != null)
+                    {
+                        return new List<Modelos> { modelosObjeto };
+                    }
+                }
+                catch (JsonSerializationException) { }
+            }
+
+            return Enumerable.Empty<Modelos>();
+        }
     }
 }

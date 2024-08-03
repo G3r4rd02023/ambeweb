@@ -10,5 +10,8 @@ namespace Ambe.Frontend.Services
 
         Task<IEnumerable<Contactos>> GetContactosAsync(int idPersona);
 
+        Task<IEnumerable<Modelos>> GetModelosAsync(int idMarca);
+
+
     }
 }

@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Ambe.Frontend.Models.Entidades.Modelos>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = null;
+}
+
+
+
+
+<table id="usuario" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdModelo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMarca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreModelo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdModelo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMarca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreModelo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+           
+            <td>
+                    <button data-id="@item.IdModelo" class="btn btn-outline-danger btn-sm deleteItem">
+                        <i class="oi oi-circle-x"></i>
+                    </button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div class="form-group">
+    <button type="submit" class="btn btn-sm btn-success">
+        <i class="oi oi-check"></i>
+    </button>
+    <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">
+        <i class="oi oi-arrow-thick-left"></i>
+    </button>
+</div>
+
+<partial name="_MostrarModal" />
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="~/js/showmodal.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#usuario').DataTable({
+                "language": {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.deleteItem');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    const patientId = this.getAttribute('data-id');
+
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, eliminarlo',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            window.location.href = '/Marcas/DeleteModel/' + patientId;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+}
