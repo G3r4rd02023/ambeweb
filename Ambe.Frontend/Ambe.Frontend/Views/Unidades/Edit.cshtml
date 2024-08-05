@@ -1,0 +1,86 @@
+﻿@model Ambe.Frontend.Models.Entidades.Unidades
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header text-center">
+            <img src="/images/ramgar.png" style="width: 100px; height: auto;" />
+        </div>
+        <div class="card-body">
+            <h5>Editar Unidad </h5>
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="IdUnidad" />
+                <input type="hidden" asp-for="IdInstituto" />
+                <input type="hidden" asp-for="CreadoPor" />
+                <input type="hidden" asp-for="ModificadoPor" />
+                <input type="hidden" asp-for="FechaDeCreacion" />
+                <input type="hidden" asp-for="FechaDeModificacion" />
+                <div class="form-group">
+                    <input asp-for="NumeroUnidad" class="form-control" placeholder="# de unidad" />
+                    <span asp-validation-for="NumeroUnidad" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Placa" class="form-control" placeholder="Placa" />
+                    <span asp-validation-for="Placa" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Color" class="form-control" placeholder="Color" />
+                    <span asp-validation-for="Color" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Capacidad</label>
+                    <input asp-for="Capacidad" class="form-control" placeholder="Capacidad" type="number" />
+                    <span asp-validation-for="Capacidad" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Chasis" class="form-control" placeholder="Chasis" />
+                    <span asp-validation-for="Chasis" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Marca</label>
+                    <select asp-for="IdMarca" asp-items="Model.Marcas" class="form-control"></select>
+                    <span asp-validation-for="IdMarca" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Modelo</label>
+                    <select asp-for="IdModelo" asp-items="Model.Modelos" class="form-control"></select>
+                    <span asp-validation-for="IdModelo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Conductor</label>
+                    <select asp-for="IdPersonaConductor" asp-items="Model.Conductores" class="form-control"></select>
+                    <span asp-validation-for="IdPersonaConductor" class="text-danger"></span>
+                </div>
+
+                <div class="card-footer text-center">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-success">
+                            <i class="oi oi-check"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">
+                            <i class="oi oi-arrow-thick-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+}
+
+
