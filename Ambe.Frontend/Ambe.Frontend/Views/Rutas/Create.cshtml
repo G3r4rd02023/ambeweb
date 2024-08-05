@@ -1,0 +1,75 @@
+﻿@model Ambe.Frontend.Models.Entidades.Rutas
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header text-center">
+            <img src="/images/ramgar.png" style="width: 100px; height: auto;" />
+        </div>
+        <div class="card-body">
+            <h5>Crear Ruta </h5>
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="IdInstituto" />
+                <input type="hidden" asp-for="Estado" />
+                <input type="hidden" asp-for="Departamento" />
+                <input type="hidden" asp-for="Municipio" />
+                <input type="hidden" asp-for="CreadoPor" />
+                <input type="hidden" asp-for="ModificadoPor" />
+                <input type="hidden" asp-for="FechaDeCreacion" />
+                <input type="hidden" asp-for="FechaDeModificacion" />
+
+                <div class="form-group">
+                    <input asp-for="NombreRuta" class="form-control" placeholder="Nombre" />
+                    <span asp-validation-for="NombreRuta" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Origen" class="form-control" placeholder="Origen" />
+                    <span asp-validation-for="Origen" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Destino" class="form-control" placeholder="Destino" />
+                    <span asp-validation-for="Destino" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="DistanciaRecorrida" class="form-control" placeholder="Distancia" />
+                    <span asp-validation-for="DistanciaRecorrida" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Descripcion" class="form-control" placeholder="Descripcion" />
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <textarea asp-for="Colonias" class="form-control" placeholder="Colonias" ></textarea>
+                    <span asp-validation-for="Colonias" class="text-danger"></span>
+                </div>
+
+
+                <div class="card-footer text-center">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-success">
+                            <i class="oi oi-check"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">
+                            <i class="oi oi-arrow-thick-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
