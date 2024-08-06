@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ambe.Frontend.Models.Entidades
@@ -9,24 +10,35 @@ namespace Ambe.Frontend.Models.Entidades
 
         public DateTime Fecha { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten números.")]
         public string HoraInicio { get; set; } = null!;
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten números.")]
         public string HoraFinal { get; set; } = null!;
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public double LatitudActual { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public double LongitudActual { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public int IdPersonaConductor { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public int IdPersonaNinera { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public int IdUnidad { get; set; }
 
         public int IdInstituto { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public int IdTipoViaje { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public string Comentarios { get; set; } = null!;
 
         public string Estado { get; set; } = null!;

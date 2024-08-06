@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ambe.Frontend.Models.Entidades
 {
@@ -9,14 +10,19 @@ namespace Ambe.Frontend.Models.Entidades
 
         public int IdPersona { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public string Usuario { get; set; } = null!;
 
         public int IdInstituto { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public string NombreUsuario { get; set; } = null!;
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
+        [EmailAddress(ErrorMessage = "El formato del email no es válido.")]
         public string CorreoElectronico { get; set; } = null!;
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public string Contraseña { get; set; } = null!;
 
         public string Estado { get; set; } = null!;

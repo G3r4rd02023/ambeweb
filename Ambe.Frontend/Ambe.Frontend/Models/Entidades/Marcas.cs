@@ -1,9 +1,12 @@
-﻿namespace Ambe.Frontend.Models.Entidades
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Ambe.Frontend.Models.Entidades
 {
     public class Marcas
     {
         public int IdMarca { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es requerido")]        
         public string NombreMarca { get; set; } = null!;
 
         public string Estado { get; set; } = null!;
