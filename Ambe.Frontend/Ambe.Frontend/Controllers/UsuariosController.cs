@@ -62,7 +62,7 @@ namespace Ambe.Frontend.Controllers
                 model.NombreUsuario = model.CorreoElectronico;
                 model.CreadoPor = User.Identity!.Name!;
                 model.ModificadoPor = User.Identity!.Name!;
-
+                
                 var json = JsonConvert.SerializeObject(model);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -118,7 +118,7 @@ namespace Ambe.Frontend.Controllers
             {
                 user.FechaUltimaConexion = DateTime.Now;
                 user.FechaModificacion = DateTime.Now;
-                
+                user.Intentos = 0;
                 var json = JsonConvert.SerializeObject(user);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 

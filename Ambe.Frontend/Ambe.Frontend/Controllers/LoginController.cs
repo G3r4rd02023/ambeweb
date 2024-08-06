@@ -15,12 +15,14 @@ namespace Ambe.Frontend.Controllers
 
         private readonly HttpClient _httpClient;
         private readonly IBitacoraService _bitacora;
+        private readonly IServicioParametro _parametro;
 
-        public LoginController(IHttpClientFactory httpClientFactory, IBitacoraService bitacora)
+        public LoginController(IHttpClientFactory httpClientFactory, IBitacoraService bitacora, IServicioParametro parametro)
         {
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new Uri("https://ambetest.somee.com");
             _bitacora = bitacora;
+            _parametro = parametro;
         }
         public IActionResult IniciarSesion()
         {
@@ -32,14 +34,26 @@ namespace Ambe.Frontend.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                var json = JsonConvert.SerializeObject(model);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
+                
                 var email = Uri.EscapeDataString(model.Email);
                 var userResponse = await _httpClient.GetAsync($"/api/Usuarios/email/{email}");
                 var usuarioJson = await userResponse.Content.ReadAsStringAsync();
                 var usuario = JsonConvert.DeserializeObject<Usuarios>(usuarioJson);
+
+                if (usuario == null)
+                {
+                    ViewData["AlertMessage"] = "Usuario no encontrado!";
+                    return View(model);
+                }
+
+                if (usuario.Estado == "Bloqueado")
+                {
+                    ViewData["AlertMessage"] = "Su cuenta esta bloqueada. Contacte con el administrador.";
+                    return View(model);
+                }
+
+                var json = JsonConvert.SerializeObject(model);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync("/api/Login/IniciarSesion", content);
                 if (response.IsSuccessStatusCode)
@@ -59,12 +73,29 @@ namespace Ambe.Frontend.Controllers
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+
+                    // Resetear los intentos fallidos
+                    usuario.Intentos = 0;
+                    var updateJson = JsonConvert.SerializeObject(usuario);
+                    var updateContent = new StringContent(updateJson, Encoding.UTF8, "application/json");
+                    await _httpClient.PutAsync($"/api/Usuarios/{usuario.IdUsuario}", updateContent);
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
+                    // Incrementar los intentos fallidos
+                    usuario.Intentos++;
+                    if (usuario.Intentos >= int.Parse(await _parametro.ObtenerValor("NumeroIntentosPermitidos"))) // Número máximo de intentos permitidos
+                    {
+                        usuario.Estado = "Bloqueado";
+                    }
 
-                    ViewData["AlertMessage"] = "Usuario o clave incorrectos!!! numero de intentos: ";
+                    var updateJson = JsonConvert.SerializeObject(usuario);
+                    var updateContent = new StringContent(updateJson, Encoding.UTF8, "application/json");
+                    await _httpClient.PutAsync($"/api/Usuarios/{usuario.IdUsuario}", updateContent);
+                    ViewData["AlertMessage"] = "Usuario o clave incorrectos!!! Numero de intentos: " + usuario.Intentos;
+
                 }
 
             }

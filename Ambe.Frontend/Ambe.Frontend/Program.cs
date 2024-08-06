@@ -16,6 +16,7 @@ namespace Ambe.Frontend
             builder.Services.AddScoped<IServicioLista, ServicioLista>();
             builder.Services.AddScoped<IServicioPersonas, ServicioPersonas>();
             builder.Services.AddScoped<IServicioViajes, ServicioViajes>();
+            builder.Services.AddScoped<IServicioParametro, ServicioParametro>();
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
            .AddCookie(options =>
            {

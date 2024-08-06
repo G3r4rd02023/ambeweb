@@ -30,6 +30,7 @@ namespace Ambe.Frontend.Models.Entidades
         public int IdRol { get; set; }
 
         public DateTime FechaUltimaConexion { get; set; }
+        public int? Intentos { get; set; }
 
         public string CreadoPor { get; set; } = null!;
 

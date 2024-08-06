@@ -1,0 +1,47 @@
+﻿@model Ambe.Frontend.Models.Entidades.Parametros
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/ModalLayout.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header text-center">
+            <img src="/images/ramgar.png" style="width: 100px; height: auto;" />
+        </div>
+        <div class="card-body">
+            <h5>Crear Parametro </h5>
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="IdUsuario" />
+               
+
+                <div class="form-group">
+                    <input asp-for="Parametro" class="form-control" placeholder="Descripcion" />
+                    <span asp-validation-for="Parametro" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Valor" class="form-control" placeholder="Valor" />
+                    <span asp-validation-for="Valor" class="text-danger"></span>
+                </div>
+
+
+                <div class="card-footer text-center">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-success">
+                            <i class="oi oi-check"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">
+                            <i class="oi oi-arrow-thick-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
