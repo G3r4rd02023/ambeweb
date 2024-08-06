@@ -15,6 +15,7 @@ namespace Ambe.Frontend
             builder.Services.AddScoped<IBitacoraService, BitacoraService>();
             builder.Services.AddScoped<IServicioLista, ServicioLista>();
             builder.Services.AddScoped<IServicioPersonas, ServicioPersonas>();
+            builder.Services.AddScoped<IServicioViajes, ServicioViajes>();
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
            .AddCookie(options =>
            {

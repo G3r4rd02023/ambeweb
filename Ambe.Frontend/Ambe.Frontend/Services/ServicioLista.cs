@@ -99,6 +99,53 @@ namespace Ambe.Frontend.Services
             return [];
         }
 
+        public async Task<IEnumerable<SelectListItem>> GetListaUnidades()
+        {
+            var response = await _httpClient.GetAsync("/api/Unidades");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var unidades = JsonConvert.DeserializeObject<IEnumerable<Unidades>>(content);
+                var listaUnidades = unidades!.Select(c => new SelectListItem
+                {
+                    Value = c.IdUnidad.ToString(),
+                    Text = c.NumeroUnidad
+                }).ToList();
+
+                listaUnidades.Insert(0, new SelectListItem
+                {
+                    Value = "",
+                    Text = "Seleccione una unidad"
+                });
+                return listaUnidades;
+            }
+
+            return [];
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetListaTiposViaje()
+        {
+            var response = await _httpClient.GetAsync("/api/TipoViajes");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var tipos = JsonConvert.DeserializeObject<IEnumerable<TipoViaje>>(content);
+                var lista = tipos!.Select(c => new SelectListItem
+                {
+                    Value = c.IdTipoViaje.ToString(),
+                    Text = c.Evento
+                }).ToList();
+
+                lista.Insert(0, new SelectListItem
+                {
+                    Value = "",
+                    Text = "Seleccione un tipo de viaje"
+                });
+                return lista;
+            }
+
+            return [];
+        }
         public async Task<IEnumerable<SelectListItem>> GetListaConductores()
         {
             var response = await _httpClient.GetAsync("/api/Personas");
@@ -119,6 +166,31 @@ namespace Ambe.Frontend.Services
                     Text = "Seleccione un Conductor"
                 });
                 return listaConductores;
+            }
+
+            return [];
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetListaNineras()
+        {
+            var response = await _httpClient.GetAsync("/api/Personas");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var personas = JsonConvert.DeserializeObject<IEnumerable<Personas>>(content);
+                var nineras = personas!.Where(p => p.IdTipoPersona == 4);
+                var listaNineras = nineras!.Select(c => new SelectListItem
+                {
+                    Value = c.IdPersona.ToString(),
+                    Text = c.NombreCompleto
+                }).ToList();
+
+                listaNineras.Insert(0, new SelectListItem
+                {
+                    Value = "",
+                    Text = "Seleccione una niñera"
+                });
+                return listaNineras;
             }
 
             return [];

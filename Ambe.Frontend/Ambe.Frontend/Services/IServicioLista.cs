@@ -12,6 +12,12 @@ namespace Ambe.Frontend.Services
 
         Task<IEnumerable<SelectListItem>> GetListaConductores();
 
+        Task<IEnumerable<SelectListItem>> GetListaNineras();
+
+        Task<IEnumerable<SelectListItem>> GetListaUnidades();
+
+        Task<IEnumerable<SelectListItem>> GetListaTiposViaje();
+
         IEnumerable<SelectListItem> GetListaEstados();
 
     }

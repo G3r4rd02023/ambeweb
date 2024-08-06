@@ -1,0 +1,98 @@
+﻿@model Ambe.Frontend.Models.Entidades.Viajes
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header text-center">
+            <img src="/images/ramgar.png" style="width: 100px; height: auto;" />
+        </div>
+        <div class="card-body">
+            <h5>Crear Viaje </h5>
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="IdInstituto" />
+                <input type="hidden" asp-for="Estado"/>
+                <input type="hidden" asp-for="CreadoPor" />
+                <input type="hidden" asp-for="ModificadoPor" />
+                <input type="hidden" asp-for="FechaDeCreacion" />
+                <input type="hidden" asp-for="FechaDeModificacion" />
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input asp-for="Fecha" class="form-control"  type="date" />
+                    <span asp-validation-for="Fecha" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="HoraInicio" class="form-control" placeholder="Hora de salida" />
+                    <span asp-validation-for="HoraInicio" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="HoraFinal" class="form-control" placeholder="Hora de regreso" />
+                    <span asp-validation-for="HoraFinal" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Latitud</label>
+                    <input asp-for="LatitudActual" class="form-control" placeholder="Latitud actual" />
+                    <span asp-validation-for="LatitudActual" class="text-danger"></span>
+                </div>
+
+                 <div class="form-group">
+                     <label>Longitud</label>
+                    <input asp-for="LongitudActual" class="form-control" placeholder="Longitud actual" />
+                    <span asp-validation-for="LongitudActual" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">                    
+                    <input asp-for="Comentarios" class="form-control" placeholder="Comentarios"  />
+                    <span asp-validation-for="Comentarios" class="text-danger"></span>
+                </div>
+               
+                <div class="form-group">
+                    <label>Conductor</label>
+                    <select asp-for="IdPersonaConductor" asp-items="Model.Conductores" class="form-control"></select>
+                    <span asp-validation-for="IdPersonaConductor" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Niñera</label>
+                    <select asp-for="IdPersonaNinera" asp-items="Model.Nineras" class="form-control"></select>
+                    <span asp-validation-for="IdPersonaNinera" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo de viaje</label>
+                    <select asp-for="IdTipoViaje" asp-items="Model.TipoViajes" class="form-control"></select>
+                    <span asp-validation-for="IdTipoViaje" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Unidad</label>
+                    <select asp-for="IdUnidad" asp-items="Model.Unidades" class="form-control"></select>
+                    <span asp-validation-for="IdUnidad" class="text-danger"></span>
+                </div>
+
+                <div class="card-footer text-center">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-success">
+                            <i class="oi oi-check"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">
+                            <i class="oi oi-arrow-thick-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+}
+

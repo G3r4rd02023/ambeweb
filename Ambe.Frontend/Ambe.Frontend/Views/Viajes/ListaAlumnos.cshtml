@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Ambe.Frontend.Models.AlumnosDTO>
+
+@{
+    ViewData["Title"] = "BitacoraViaje";
+    Layout = null;
+}
+
+<h4 class="text-center bg-custom text-white">Lista de Alumnos</h4>
+
+
+<table id="usuario" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreAlumno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeCreacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreadoPor)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreAlumno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaDeCreacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreadoPor)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="form-group">
+    <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">
+        <i class="oi oi-arrow-thick-left"></i>
+    </button>
+</div>
+
+<partial name="_MostrarModal" />
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="~/js/showmodal.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#usuario').DataTable({
+                "language": {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+                },
+            });
+        });
+    </script>
+
+
+
+}
+
+
+
