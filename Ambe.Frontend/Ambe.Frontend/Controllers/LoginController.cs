@@ -79,7 +79,18 @@ namespace Ambe.Frontend.Controllers
                     usuario.Intentos = 0;
                     var updateJson = JsonConvert.SerializeObject(usuario);
                     var updateContent = new StringContent(updateJson, Encoding.UTF8, "application/json");
-                    await _httpClient.PutAsync($"/api/Usuarios/{usuario.IdUsuario}", updateContent);
+                    await _httpClient.PutAsync($"/api/Usuarios/{usuario.IdUsuario}", updateContent);                    
+                    var user = await _bitacora.ObtenerUsuario(email);
+                    var bitacora = new BitacoraViewModel()
+                    {
+                        IdUsuario = user!.IdUsuario,
+                        Usuario = user!.NombreUsuario,
+                        IdInstituto = 1,
+                        TipoAccion = "Inició Sesión en el sistema",
+                        Tabla = "Login",
+                        Fecha = DateTime.Now
+                    };
+                    await _bitacora.AgregarRegistro(bitacora);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -105,6 +116,18 @@ namespace Ambe.Frontend.Controllers
         public async Task<IActionResult> CerrarSesion()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var email = Uri.EscapeDataString(User!.Identity!.Name!);
+            var user = await _bitacora.ObtenerUsuario(email);
+            var bitacora = new BitacoraViewModel()
+            {
+                IdUsuario = user!.IdUsuario,
+                Usuario = user!.NombreUsuario,
+                IdInstituto = 1,
+                TipoAccion = "Cerró sesión en el sistema",
+                Tabla = "Login",
+                Fecha = DateTime.Now
+            };
+            await _bitacora.AgregarRegistro(bitacora);
             return RedirectToAction("IniciarSesion", "Login");
         }
 
