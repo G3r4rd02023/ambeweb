@@ -39,8 +39,9 @@
 }
 
 <p>
-    <a onclick="showInPopup('@Url.Action("Create", "Parametros", new { id = 0 })', '')"
-       class="btn btn-sm btn-primary text-white mt-3"><i class="oi oi-plus"></i> Nuevo Parametro</a>
+    <a onclick="showInPopup('@Url.Action("Create", "Parametros", new { id = 0 }, Context.Request.Scheme)', '')" class="btn btn-sm btn-primary text-white mt-3">
+        <i class="oi oi-plus"></i> Nuevo Parametro
+    </a>
 </p>
 
 <div class="col-md-12">
@@ -69,8 +70,9 @@
                             <td>@Html.DisplayFor(modelItem => item.Parametro)</td>
                             <td>@Html.DisplayFor(modelItem => item.Valor)</td>
                             <td>
-                                <a onclick="showInPopup('@Url.Action("Edit", "Parametros", new { id = item.IdParametro }, Context.Request.Scheme)' ,
-                    '')" class="btn btn-outline-warning btn-sm"><i class="oi oi-pencil"></i> </a>
+                                <a onclick="showInPopup('@Url.Action("Edit", "Parametros", new { id = item.IdParametro }, Context.Request.Scheme)', '')" class="btn btn-outline-warning btn-sm">
+                                    <i class="oi oi-pencil"></i>
+                                </a>
                                 <button data-id="@item.IdParametro" class="btn btn-outline-danger btn-sm deleteItem">
                                     <i class="oi oi-circle-x"></i>
                                 </button>
